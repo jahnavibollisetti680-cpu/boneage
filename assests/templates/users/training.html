@@ -1,0 +1,31 @@
+{% extends 'users/userbase.html' %}
+{% load static %}
+
+{% block contents %}
+<div class="container mt-5" style="background-color:#f9f9f9; padding: 30px; border-radius: 10px;">
+    <h2 class="text-center mb-4">Model Performance Overview</h2>
+
+    <div class="mb-4">
+        <p><strong>Model:</strong> {{ metrics.model_name }}</p>
+        <p><strong>Dataset:</strong> {{ metrics.dataset }}</p>
+        <p><strong>Epochs Trained:</strong> {{ metrics.epochs }}</p>
+    </div>
+
+    <table class="table table-striped text-center">
+        <thead class="thead-dark">
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Accuracy</td><td>{{ metrics.accuracy }}</td></tr>
+            <tr><td>Precision</td><td>{{ metrics.precision }}</td></tr>
+            <tr><td>Recall</td><td>{{ metrics.recall }}</td></tr>
+            <tr><td>F1 Score</td><td>{{ metrics.f1_score }}</td></tr>
+        </tbody>
+    </table>
+
+    
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+<!-- {%extends 'users/userbase.html'%} -->
+{%load static%}
+{%block contents%}
+<!-- /.parallax full screen background image -->
+<div class="fullscreen landing parallax banner" style="background-image:url('{%static 'images/background.jpg'%}');"
+     data-img-width="2000" data-img-height="1325" data-diff="100">
+
+    <!-- <div class="overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>
+
+<!-- /.feature section -->
+<div id="feature">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1 col-sm-12 text-center feature-title">
+                {% if result %}
+                    <div class="result-box">
+                        <h5><strong>Prediction Result:</strong></h5>
+                        <p>{{ result }}</p>
+                        {% if uploaded_file_url %}
+                            <img src="{{ uploaded_file_url }}" alt="Uploaded Image" width="300">
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}
