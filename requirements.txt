@@ -1,0 +1,8 @@
+Django
+numpy
+scipy
+python-dateutil
+pillow
+keras
+tensorflow
+gunicorn
