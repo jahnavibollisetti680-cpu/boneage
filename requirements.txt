@@ -4,5 +4,5 @@ scipy
 python-dateutil
 pillow
 keras
-tensorflow
+tensorflow==2.15.0
 gunicorn
