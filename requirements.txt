@@ -3,6 +3,6 @@ numpy
 scipy
 python-dateutil
 pillow
-keras
 tensorflow==2.15.0
+keras==2.15.0
 gunicorn
