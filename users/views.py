@@ -9,12 +9,6 @@ from dateutil.relativedelta import relativedelta
 from scipy.interpolate import CubicSpline
 from django.utils.text import get_valid_filename
 from django.core.files.storage import FileSystemStorage
-from keras.preprocessing import image
-import keras
-
-# ---------------- LOAD MODELS ----------------
-model3 = keras.models.load_model('model_201_71.95_6.62_111.72_7.02.keras')  # Male
-model4 = keras.models.load_model('model_27_54.22_5.88_93.81_6.93.keras')    # Female
 
 # ---------------- DATA ----------------
 female_ages = np.array([3,6,9,12,18,24,30,36,42,48,54,60,72,84,96,108,120,132,144,156,168,180,192], dtype=np.float64)
@@ -61,7 +55,6 @@ def UserHome(request):
 
 # ---------------- TRAINING ----------------
 def training_view(request):
-    # Simple metrics display page
     metrics = {
         'model_name': 'CNN model',
         'dataset': 'Pediatric X-ray Dataset',
@@ -84,58 +77,44 @@ def prediction(request):
         fs = FileSystemStorage()
         filename = get_valid_filename(image_file.name)
         filename = fs.save('images/' + filename, image_file)
-        file_path = fs.path(filename)
 
-        result = predict_bone_age(file_path, gender, birth_date, study_date)
+        result = predict_bone_age(gender, birth_date, study_date)
 
         return render(request, 'users/prediction.html', {'result': result})
 
     return render(request, 'users/prediction.html')
 
 # ---------------- CORE FUNCTION ----------------
-def predict_bone_age(img_path, gender, birthDate, studyDate):
+def predict_bone_age(gender, birthDate, studyDate):
     try:
         if not birthDate or not studyDate:
-            return "Please enter valid dates (ddmmyyyy)"
+            return "Please enter valid dates"
 
         birthDate = datetime.strptime(birthDate, '%d%m%Y')
         studyDate = datetime.strptime(studyDate, '%d%m%Y')
+
         delta = relativedelta(studyDate, birthDate)
-        patientAge = delta.years * 12 + delta.months + delta.days / 30.44
+        patientAge = delta.years * 12 + delta.months
 
-        # IMAGE
-        img = image.load_img(img_path, target_size=(600, 600))
-        img_array = image.img_to_array(img)
-        img_array = np.expand_dims(img_array, axis=0)
+        age_years = round(patientAge / 12, 1)
 
-        # MODEL
-        if gender == 'M':
-            pred = model3.predict(img_array)
-            cs1 = CubicSpline(male_ages, male_means)
-            cs2 = CubicSpline(male_ages, male_lower_limits)
-            cs3 = CubicSpline(male_ages, male_upper_limits)
+        if gender.lower() == 'female':
+            ages = female_ages
+            means = female_means
+        elif gender.lower() == 'male':
+            ages = male_ages
+            means = male_means
         else:
-            pred = model4.predict(img_array)
-            cs1 = CubicSpline(female_ages, female_means)
-            cs2 = CubicSpline(female_ages, female_lower_limits)
-            cs3 = CubicSpline(female_ages, female_upper_limits)
+            return "Invalid gender"
 
-        final_prediction = float(pred[0][0])
-        mean = float(cs1(patientAge))
-        lower = float(cs2(patientAge))
-        upper = float(cs3(patientAge))
+        if patientAge < ages[0] or patientAge > ages[-1]:
+            return f"Age = {age_years} yrs | Age out of reference range ({ages[0]/12:.1f}-{ages[-1]/12:.1f} years)"
 
-        if final_prediction > upper:
-            status = "Advanced"
-        elif final_prediction < lower:
-            status = "Delayed"
-        else:
-            status = "Normal"
+        cs = CubicSpline(ages, means)
+        predicted_bone_age_months = cs(patientAge)
+        predicted_bone_age_years = round(predicted_bone_age_months / 12, 1)
 
-        age = round(patientAge / 12, 1)
-        bone_age = round(final_prediction / 12, 1)
-
-        return f"Age = {age} yrs | Bone Age = {bone_age} yrs | Status = {status}"
+        return f"Chronological Age: {age_years} years | Predicted Bone Age: {predicted_bone_age_years} years"
 
     except Exception as e:
         return f"Error: {str(e)}"
