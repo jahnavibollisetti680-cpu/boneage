@@ -19,28 +19,34 @@
         <th>Email</th>
         <th>Locality</th>
         <th>Status</th>
-        <th>Activate</th>
+        <th>Action</th>
       </tr>
     </thead>
     <tbody>
     {% for i in data %}
-                                            <tr style="color: Green">
-                                                <td>{{forloop.counter}}</td>
-                                                <td>{{i.name}}</td>
-                                                <td>{{i.loginid}}</td>
-                                                <td>{{i.mobile}}</td>
-                                                <td>{{i.email}}</td>
-                                                <td>{{i.locality}}</td>
-                                                <td>{{i.status}}</td>
-
-                                                {% if i.status == 'waiting' %}
-                                                <td><a class="btn-link" href="/ActivaUsers/?uid={{ i.id }}"
-                                                       style="color:DARKBLUE">Activate</a></td>
-                                                {% else %}
-                                                <td> Activated</td>
-                                                {% endif %}
-                                            </tr>
-                                            {% endfor %}
+      <tr class="text-dark">
+        <td>{{ forloop.counter }}</td>
+        <td>{{ i.name }}</td>
+        <td>{{ i.loginid }}</td>
+        <td>{{ i.mobile }}</td>
+        <td>{{ i.email }}</td>
+        <td>{{ i.locality }}</td>
+        <td>
+            {% if i.status == 'activated' %}
+                <span class="status-pill" style="background:#28a745;color:#fff;">Activated</span>
+            {% else %}
+                <span class="status-pill" style="background:#ffc107;color:#1d1d1d;">Waiting</span>
+            {% endif %}
+        </td>
+        <td>
+            {% if i.status == 'waiting' %}
+                <a href="{% url 'ActivaUsers' %}?uid={{ i.id }}" class="btn btn-success btn-sm">Activate</a>
+            {% else %}
+                <span class="status-pill" style="background:#6c757d;color:#fff;">Done</span>
+            {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
 
     </tbody>
   </table>

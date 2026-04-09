@@ -1,5 +1,5 @@
 import os
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib import messages
 from users.models import UserRegistrationModel
 
@@ -30,9 +30,6 @@ def RegisterUsersView(request):
 
 def ActivaUsers(request):
     if request.method == 'GET':
-        id = request.GET.get('uid')
-        status = 'activated'
-        print("PID = ", id, status)
-        UserRegistrationModel.objects.filter(id=id).update(status=status)
-        data = UserRegistrationModel.objects.all()
-        return render(request,'admins/viewregisterusers.html',{'data':data})
+        uid = request.GET.get('uid')
+        UserRegistrationModel.objects.filter(id=uid, status='waiting').update(status='activated')
+        return redirect('RegisterUsersView')

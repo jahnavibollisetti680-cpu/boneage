@@ -6,57 +6,53 @@
 <div id="feature">
     <div class="container">
         <div class="row">
-            <div class="col-md-10 col-md-offset-1 col-sm-12 text-center feature-title">
-
-              <h2>Admin Login Form</h2>
-
-
-<center>
-                  <form action="{%url 'AdminLoginCheck'%}" method="POST" class="text-primary" style="width:100%">
+            <div class="col-md-10 col-md-offset-1 col-sm-12">
+                <div class="form-card">
+                    <h2 class="text-center">Admin Login Form</h2>
+                    <form action="{% url 'AdminLoginCheck' %}" method="POST" class="text-primary" style="width:100%;">
                         {% csrf_token %}
-                        <table>
-                            <div class="form-group row">
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control" name="loginid" required
-                                           placeholder="Enter Login Id">
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-12">
-                                    <input type="password" class="form-control" name="pswd" required
-                                           placeholder="Enter password">
-                                </div>
-                            </div>
-
-
+                        <table style="width:100%;">
+                            <tr>
+                                <td colspan="2">
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control" name="loginid" required placeholder="Enter Login Id">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <input type="password" class="form-control" name="pswd" required placeholder="Enter password">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
                             <tr>
                                 <td style="padding:20px;">
-                                    <button class="btn btn-block btn-primary text-white py-2 px-4"
-                                            style="margin-left:20%;"
-                                            type="submit">
-                                        Login
-                                    </button>
+                                    <button class="btn btn-primary text-white" type="submit">Login</button>
                                 </td>
-                                 <td>
-                                <button class="btn btn-block btn-primary text-white py-2 px-4" style="margin-left:20%;"
-                                        type="reset">
-                                    Reset
-                                </button>
-                            </td>
+                                <td style="padding:20px;">
+                                    <button class="btn btn-default text-white" type="reset">Reset</button>
+                                </td>
                             </tr>
-
                             {% if messages %}
-                            {% for message in messages %}
-                            <font color='GREEN'> {{ message }}</font>
-                            {% endfor %}
+                            <tr>
+                                <td colspan="2">
+                                    <div class="text-center" style="margin-top:12px;">
+                                        {% for message in messages %}
+                                            <span style="color:#ffdd57;">{{ message }}</span><br>
+                                        {% endfor %}
+                                    </div>
+                                </td>
+                            </tr>
                             {% endif %}
-
                         </table>
-
                     </form>
-
-</center>
-               </center>
+                </div>
+            </div>
 
 
             </div>

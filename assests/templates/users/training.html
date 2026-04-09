@@ -2,30 +2,30 @@
 {% load static %}
 
 {% block contents %}
-<div class="container mt-5" style="background-color:#f9f9f9; padding: 30px; border-radius: 10px;">
-    <h2 class="text-center mb-4">Model Performance Overview</h2>
+<div class="container" style="min-height: calc(100vh - 120px); padding-top:80px; padding-bottom:80px;">
+    <div class="form-card" style="max-width: 760px; margin:auto;">
+        <h2 class="text-center" style="margin-bottom: 24px; color:#fff;">Model Performance Overview</h2>
 
-    <div class="mb-4">
-        <p><strong>Model:</strong> {{ metrics.model_name }}</p>
-        <p><strong>Dataset:</strong> {{ metrics.dataset }}</p>
-        <p><strong>Epochs Trained:</strong> {{ metrics.epochs }}</p>
+        <div class="mb-4" style="color:#f0f0f0;">
+            <p><strong>Model:</strong> {{ metrics.model_name }}</p>
+            <p><strong>Dataset:</strong> {{ metrics.dataset }}</p>
+            <p><strong>Epochs Trained:</strong> {{ metrics.epochs }}</p>
+        </div>
+
+        <table class="table table-striped text-center" style="background:#fff; border-radius: 12px; overflow:hidden;">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Accuracy</td><td>{{ metrics.accuracy }}</td></tr>
+                <tr><td>Precision</td><td>{{ metrics.precision }}</td></tr>
+                <tr><td>Recall</td><td>{{ metrics.recall }}</td></tr>
+                <tr><td>F1 Score</td><td>{{ metrics.f1_score }}</td></tr>
+            </tbody>
+        </table>
     </div>
-
-    <table class="table table-striped text-center">
-        <thead class="thead-dark">
-            <tr>
-                <th>Metric</th>
-                <th>Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr><td>Accuracy</td><td>{{ metrics.accuracy }}</td></tr>
-            <tr><td>Precision</td><td>{{ metrics.precision }}</td></tr>
-            <tr><td>Recall</td><td>{{ metrics.recall }}</td></tr>
-            <tr><td>F1 Score</td><td>{{ metrics.f1_score }}</td></tr>
-        </tbody>
-    </table>
-
-    
 </div>
 {% endblock %}

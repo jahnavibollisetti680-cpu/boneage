@@ -137,17 +137,35 @@ a:hover {
 	background: transparent;
 	color: #fbd22c;
 }
-.btn-secondary {
-	font-size: 20px;
-	font-weight: 300;
-	line-height: 20px;
-	padding: 20px 50px;
-	height: 65px;
-	border: none;
-	background: #F33030;
-	transition: all 0.4s;
-	color: white;
-	border-radius: 4px;
+.navbar-default .navbar-nav > li > a {
+	border-radius: 30px;
+	margin: 5px 6px;
+	padding: 10px 22px;
+	background: rgba(255, 255, 255, 0.12);
+	transition: all 0.25s ease;
+}
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+	background: rgba(255, 255, 255, 0.24);
+	color: #fff;
+}
+.form-card {
+	background: rgba(7, 24, 45, 0.95);
+	padding: 30px;
+	border-radius: 24px;
+	box-shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
+}
+.form-card input.form-control,
+.form-card textarea.form-control,
+.form-card select.form-control {
+	background: rgba(255, 255, 255, 0.96);
+	border: 1px solid rgba(255, 255, 255, 0.16);
+	border-radius: 12px;
+	color: #0b1724;
+}
+.btn-primary,
+.btn-default {
+	min-width: 140px;
 }
 .btn-secondary:hover, .btn-secondary:focus, .btn-secondary:active, .btn-secondary.active, .open > .dropdown-toggle.btn-secondary {
 	background: #1f96e0;

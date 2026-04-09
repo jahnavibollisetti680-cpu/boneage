@@ -1,36 +1,16 @@
-<!-- {%extends 'users/userbase.html'%} -->
-{%load static%}
-{%block contents%}
-<!-- /.parallax full screen background image -->
-<div class="fullscreen landing parallax banner" style="background-image:url('{%static 'images/background.jpg'%}');"
-     data-img-width="2000" data-img-height="1325" data-diff="100">
+{% extends 'users/userbase.html' %}
+{% load static %}
 
-    <!-- <div class="overlay">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                </div>
-            </div>
-        </div>
-    </div> -->
-</div>
-
-<!-- /.feature section -->
-<div id="feature">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1 col-sm-12 text-center feature-title">
-                {% if result %}
-                    <div class="result-box">
-                        <h5><strong>Prediction Result:</strong></h5>
-                        <p>{{ result }}</p>
-                        {% if uploaded_file_url %}
-                            <img src="{{ uploaded_file_url }}" alt="Uploaded Image" width="300">
-                        {% endif %}
-                    </div>
-                {% endif %}
-            </div>
+{% block contents %}
+<div class="container" style="min-height: calc(100vh - 120px); display:flex; align-items:center; justify-content:center; padding-top: 80px; padding-bottom: 80px;">
+    <div class="form-card text-center" style="max-width: 760px;">
+        <h1 style="color:#fff; margin-bottom: 20px;">Welcome to Bone Age Portal</h1>
+        <p style="color: rgba(255,255,255,0.9); font-size:1.05rem; margin-bottom: 30px;">Use the buttons below to access prediction, training, and account actions on a modern dashboard.</p>
+        <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:16px;">
+            <a href="{% url 'users:prediction' %}" class="btn btn-primary">Prediction</a>
+            <a href="{% url 'users:training' %}" class="btn btn-default">Training</a>
+            <a href="{% url 'index' %}" class="btn btn-secondary">Logout</a>
         </div>
     </div>
 </div>
-{%endblock%}
+{% endblock %}
