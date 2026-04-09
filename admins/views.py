@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, HttpResponse
 from django.contrib import messages
 from users.models import UserRegistrationModel
