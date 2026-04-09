@@ -31,5 +31,5 @@ def RegisterUsersView(request):
 def ActivaUsers(request):
     if request.method == 'GET':
         uid = request.GET.get('uid')
-        UserRegistrationModel.objects.filter(id=uid, status='waiting').update(status='activated')
+        UserRegistrationModel.objects.filter(id=uid).exclude(status__iexact='activated').update(status='activated')
         return redirect('RegisterUsersView')

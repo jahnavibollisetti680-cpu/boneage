@@ -27,6 +27,7 @@ def UserRegisterActions(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
+            form.instance.status = 'waiting'
             form.save()
             messages.success(request, 'Registered Successfully. Your account will be activated by the admin.')
             form = UserRegistrationForm()
@@ -43,7 +44,7 @@ def UserLoginCheck(request):
         pswd = request.POST.get('pswd')
         try:
             check = UserRegistrationModel.objects.get(loginid=loginid, password=pswd)
-            if check.status == "activated":
+            if check.status.strip().lower() == "activated":
                 request.session['loggeduser'] = check.name
                 return render(request, 'users/UserHomePage.html')
             else:
