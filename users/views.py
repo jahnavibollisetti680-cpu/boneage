@@ -27,9 +27,10 @@ def UserRegisterActions(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Registered Successfully')
+            messages.success(request, 'Registered Successfully. Your account will be activated by the admin.')
+            form = UserRegistrationForm()
         else:
-            messages.success(request, 'User already exists')
+            messages.error(request, 'Please fix the highlighted errors and try again.')
     else:
         form = UserRegistrationForm()
     return render(request, 'UserRegistrations.html', {'form': form})
