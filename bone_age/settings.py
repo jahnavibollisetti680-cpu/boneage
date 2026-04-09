@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!ik$1=%&4vd73(qsuyhdrrd25j(!+yyi2pmubflsv*l$=ly@sq'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-!ik$1=%&4vd73(qsuyhdrrd25j(!+yyi2pmubflsv*l$=ly@sq')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
-ALLOWED_HOSTS = ['boneage.onrender.com']
+ALLOWED_HOSTS = ['boneage.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -125,4 +125,10 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'assests','static'),]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+# Security settings for production
+SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', 'False').lower() == 'true'
+SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', 'False').lower() == 'true'
+CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE', 'False').lower() == 'true'
+SECURE_HSTS_SECONDS = int(os.environ.get('SECURE_HSTS_SECONDS', '0'))
 

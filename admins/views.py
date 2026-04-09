@@ -7,12 +7,14 @@ def AdminLoginCheck(request):
     if request.method == 'POST':
         usrid = request.POST.get('loginid')
         pswd = request.POST.get('pswd')
-        print("User ID is = ", usrid)
-        if usrid == 'admin' and pswd == 'admin':
+        # TODO: Replace with proper authentication system
+        admin_user = os.environ.get('ADMIN_USER', 'admin')
+        admin_pass = os.environ.get('ADMIN_PASS', 'admin')
+        if usrid == admin_user and pswd == admin_pass:
+            request.session['admin_logged'] = True
             return render(request, 'admins/AdminHome.html')
-
         else:
-            messages.success(request, 'Please Check Your Login Details')
+            messages.error(request, 'Invalid login credentials')
     return render(request, 'AdminLogin.html', {})
 
 

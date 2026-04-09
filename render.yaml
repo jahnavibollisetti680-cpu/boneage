@@ -7,3 +7,19 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.12
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: false
+      - key: ADMIN_USER
+        value: admin
+      - key: ADMIN_PASS
+        value: boneage2024!
+      - key: SECURE_SSL_REDIRECT
+        value: true
+      - key: SESSION_COOKIE_SECURE
+        value: true
+      - key: CSRF_COOKIE_SECURE
+        value: true
+      - key: SECURE_HSTS_SECONDS
+        value: 31536000

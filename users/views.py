@@ -70,17 +70,22 @@ def training_view(request):
 # ---------------- PREDICTION ----------------
 def prediction(request):
     if request.method == 'POST':
-        image_file = request.FILES['image']
-        gender = request.POST['gender']
+        image_file = request.FILES.get('image')
+        gender = request.POST.get('gender')
         birth_date = request.POST.get('birth_date')
         study_date = request.POST.get('study_date')
 
-        fs = FileSystemStorage()
-        filename = get_valid_filename(image_file.name)
-        filename = fs.save('images/' + filename, image_file)
+        if not all([gender, birth_date, study_date]):
+            messages.error(request, 'Please fill all required fields')
+            return render(request, 'users/prediction.html')
+
+        # Save uploaded image (for demo purposes)
+        if image_file:
+            fs = FileSystemStorage()
+            filename = get_valid_filename(image_file.name)
+            filename = fs.save('images/' + filename, image_file)
 
         result = predict_bone_age(gender, birth_date, study_date)
-
         return render(request, 'users/prediction.html', {'result': result})
 
     return render(request, 'users/prediction.html')
