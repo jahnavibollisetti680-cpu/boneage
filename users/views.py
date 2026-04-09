@@ -120,7 +120,16 @@ def predict_bone_age(gender, birthDate, studyDate):
         predicted_bone_age_months = cs(patientAge)
         predicted_bone_age_years = round(predicted_bone_age_months / 12, 1)
 
-        return f"Chronological Age: {age_years} years | Predicted Bone Age: {predicted_bone_age_years} years"
+        # Determine status
+        diff = predicted_bone_age_years - age_years
+        if diff > 0.5:
+            status = "Advanced"
+        elif diff < -0.5:
+            status = "Delayed"
+        else:
+            status = "Normal"
+
+        return f"Chronological Age: {age_years} years | Predicted Bone Age: {predicted_bone_age_years} years | Status: {status}"
 
     except Exception as e:
         return f"Error: {str(e)}"
