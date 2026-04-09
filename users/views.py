@@ -99,10 +99,10 @@ def predict_bone_age(gender, birthDate, studyDate):
 
         age_years = round(patientAge / 12, 1)
 
-        if gender.lower() == 'female':
+        if gender.lower() == 'f':
             ages = female_ages
             means = female_means
-        elif gender.lower() == 'male':
+        elif gender.lower() == 'm':
             ages = male_ages
             means = male_means
         else:
