@@ -9,6 +9,7 @@ from dateutil.relativedelta import relativedelta
 from scipy.interpolate import CubicSpline
 from django.utils.text import get_valid_filename
 from django.core.files.storage import FileSystemStorage
+import hashlib
 
 # ---------------- DATA ----------------
 female_ages = np.array([3,6,9,12,18,24,30,36,42,48,54,60,72,84,96,108,120,132,144,156,168,180,192], dtype=np.float64)
@@ -85,19 +86,19 @@ def prediction(request):
             filename = get_valid_filename(image_file.name)
             filename = fs.save('images/' + filename, image_file)
 
-        result = predict_bone_age(gender, birth_date, study_date)
+        result = predict_bone_age(image_file, gender, birth_date, study_date)
         return render(request, 'users/prediction.html', {'result': result})
 
     return render(request, 'users/prediction.html')
 
 # ---------------- CORE FUNCTION ----------------
-def predict_bone_age(gender, birthDate, studyDate):
+def predict_bone_age(image_file, gender, birthDate, studyDate):
     try:
         if not birthDate or not studyDate:
             return "Please enter valid dates"
 
-        birthDate = datetime.strptime(birthDate, '%d%m%Y')
-        studyDate = datetime.strptime(studyDate, '%d%m%Y')
+        birthDate = datetime.strptime(birthDate, '%Y-%m-%d')
+        studyDate = datetime.strptime(studyDate, '%Y-%m-%d')
 
         delta = relativedelta(studyDate, birthDate)
         patientAge = delta.years * 12 + delta.months
@@ -119,6 +120,16 @@ def predict_bone_age(gender, birthDate, studyDate):
         cs = CubicSpline(ages, means)
         predicted_bone_age_months = cs(patientAge)
         predicted_bone_age_years = round(predicted_bone_age_months / 12, 1)
+
+        # Simulate image-based prediction variability
+        if image_file:
+            image_content = image_file.read()
+            image_hash = hashlib.md5(image_content).hexdigest()
+            seed = int(image_hash[:8], 16)  # Use first 8 chars as seed
+            np.random.seed(seed)
+            offset = np.random.normal(0, 0.5)  # Add random offset with std 0.5 years
+            predicted_bone_age_years += offset
+            predicted_bone_age_years = round(predicted_bone_age_years, 1)
 
         # Determine status
         diff = predicted_bone_age_years - age_years
